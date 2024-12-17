@@ -76,9 +76,26 @@ app.get('/estimate-delivery', (req, res) => {
   res.send(estimatedDeliveryDays.toString());
 });
 
-function equalsIgnoringCase(text, other) {
-  return text.localeCompare(other, undefined, { sensitivity: 'base' }) === 0;
-}
+
+//Define API for cost of shipping
+app.get('/shipping-cost', (req, res) => {
+
+  const weight = parseFloat(req.query.weight);
+  const distance = parseFloat(req.query.distance);
+
+  let cost = weight * distance * 0.1;
+  res.send(cost.toString());
+
+});
+
+app.get('/loyalty-points', (req, res) => {
+
+  const purchaseAmount = parseFloat(req.query.purchaseAmount);
+
+  let loyaltyPoints = purchaseAmount * LOYALTY_RATE;
+  res.send(loyaltyPoints.toString());
+
+});
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
